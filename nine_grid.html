@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>九宮格任務遊戲</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-gap: 10px;
+      justify-content: center;
+    }
+    .cell {
+      background-color: #f0f0f0;
+      padding: 30px;
+      border: 2px solid #999;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .completed {
+      background-color: #a4f9c8;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+<h1>九宮格任務遊戲</h1>
+<div class="grid" id="grid"></div>
+
+<script>
+  // 題目與答案對照
+  const tasks = [
+    { question: '1+1 = ?', answer: '2' },
+    { question: '台灣的首都是哪裡？', answer: '台北' },
+    { question: '英文中的“apple”是什麼？', answer: '蘋果' },
+    { question: '5*3 = ?', answer: '15' },
+    { question: '地球有幾個月亮？', answer: '1' },
+    { question: '太陽從哪邊升起？', answer: '東邊' },
+    { question: '100/4 = ?', answer: '25' },
+    { question: '“狗”英文是？', answer: 'dog' },
+    { question: '1公尺等於幾公分？', answer: '100' },
+  ];
+
+  const grid = document.getElementById('grid');
+
+  // 建立九宮格
+  tasks.forEach((task, index) => {
+    const cell = document.createElement('div');
+    cell.className = 'cell';
+    cell.textContent = `任務 ${index + 1}`;
+    
+    cell.addEventListener('click', () => {
+      // 若已完成則不再執行
+      if (cell.classList.contains('completed')) return;
+
+      const userAnswer = prompt(task.question);
+      if (userAnswer !== null && userAnswer.trim() === task.answer) {
+        cell.textContent = '✅ 完成';
+        cell.classList.add('completed');
+      } else {
+        alert('答錯囉，請再試一次！');
+      }
+    });
+
+    grid.appendChild(cell);
+  });
+</script>
+
+</body>
+</html>
