@@ -27,15 +27,26 @@
       font-weight: bold;
       color: green;
     }
+    #resetBtn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 8px 16px;
+      background-color: #ff6666;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
+<button id="resetBtn">🔄 重置遊戲</button>
 <h1>九宮格任務遊戲</h1>
 <div class="grid" id="grid"></div>
 
 <script>
-  // 題目與答案對照
   const tasks = [
     { question: '1+1 = ?', answer: '2' },
     { question: '台灣的首都是哪裡？', answer: '台北' },
@@ -49,27 +60,48 @@
   ];
 
   const grid = document.getElementById('grid');
+  const resetBtn = document.getElementById('resetBtn');
+
+  // 從 localStorage 取得已完成資料
+  let completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
 
   // 建立九宮格
   tasks.forEach((task, index) => {
     const cell = document.createElement('div');
     cell.className = 'cell';
     cell.textContent = `任務 ${index + 1}`;
-    
+
+    // 如果該格已完成，更新顯示狀態
+    if (completedTasks.includes(index)) {
+      cell.textContent = '✅ 完成';
+      cell.classList.add('completed');
+    }
+
     cell.addEventListener('click', () => {
-      // 若已完成則不再執行
       if (cell.classList.contains('completed')) return;
 
       const userAnswer = prompt(task.question);
       if (userAnswer !== null && userAnswer.trim() === task.answer) {
         cell.textContent = '✅ 完成';
         cell.classList.add('completed');
+
+        // 儲存狀態到 localStorage
+        completedTasks.push(index);
+        localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
       } else {
         alert('答錯囉，請再試一次！');
       }
     });
 
     grid.appendChild(cell);
+  });
+
+  // 重置按鈕事件：清除 localStorage 並重整頁面
+  resetBtn.addEventListener('click', () => {
+    if (confirm('確定要重置遊戲進度嗎？')) {
+      localStorage.removeItem('completedTasks');
+      location.reload();
+    }
   });
 </script>
 
