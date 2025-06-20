@@ -27,7 +27,7 @@
       flex-direction: column;
       justify-content: flex-end; /* 垂直往下 */
       align-items: center;       /* 水平置中 */
-      padding-bottom: 20px; /* 可微調底部間距 */
+      padding-bottom: 60px; /* 可微調底部間距 */
     }
 
     .completed {
@@ -55,13 +55,14 @@
 <div class="grid" id="grid"></div>
 
 <script>
+  const gif_51 = 'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbHg5MXN6MDZ1dnpoZ2RveXRrYXdtcmp2bXV1bGpsbWxpZjVlMWFuaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1OrIIOIcRTDaNidc5p/giphy.gif';
   const tasks = [
     { question: '與一位中央成員並與他/她 拍照上傳至IGorFB進行打打卡', answer: 'pose' },
     { question: '本屆社長名字', answer: '宇揚' },
     { question: '跟宇揚、建宇、渟渟任何一位說一聲”你最棒”', answer: 'good' },
     { question: '今年是中央第幾屆', answer: '9' },
     { question: '真心話大冒險', answer: 'ok' },
-    { question: '貓咪梗圖大挑戰1', answer: '5112151121', gif: 'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbHg5MXN6MDZ1dnpoZ2RveXRrYXdtcmp2bXV1bGpsbWxpZjVlMWFuaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1OrIIOIcRTDaNidc5p/giphy.gif' },
+    { question: '貓咪梗圖大挑戰1', gif: gif_51, answer: '5112151121' },
     { question: '貓咪梗圖大挑戰2', answer: 'Huh?' },
     { question: '與一位中央成員進行猜拳且贏一局', answer: 'win' },
     { question: '本屆年度口號', answer: '100' },
