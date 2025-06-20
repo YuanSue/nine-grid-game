@@ -7,7 +7,7 @@
     body {
       font-family: sans-serif;
       text-align: center;
-      margin-top: 50px;
+      margin-top: 25px;
     }
     .grid {
       display: grid;
@@ -20,7 +20,7 @@
       padding: 30px;
       border: 2px solid #999;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 30px;
       height: 300px; /* 放大格子高度 */
     }
     .completed {
@@ -84,6 +84,15 @@
       const userAnswer = prompt(task.question);
       if (userAnswer !== null && userAnswer.trim() === task.answer) {
         cell.textContent = '✅ 完成';
+        // 若有 gif 屬性，則加入 img 標籤顯示
+          if (task.gif) {
+            const img = document.createElement('img');
+            img.src = task.gif;
+            img.alt = '任務GIF';
+            img.style.maxWidth = '100%';
+            img.style.marginTop = '10px';
+            cell.appendChild(img);
+          }
         cell.classList.add('completed');
 
         // 儲存狀態到 localStorage
