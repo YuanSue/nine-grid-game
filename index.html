@@ -20,9 +20,16 @@
       padding: 30px;
       border: 2px solid #999;
       cursor: pointer;
-      font-size: 30px;
+      font-size: 60px;
       height: 300px; /* 放大格子高度 */
+
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end; /* 垂直往下 */
+      align-items: center;       /* 水平置中 */
+      padding-bottom: 20px; /* 可微調底部間距 */
     }
+
     .completed {
       background-color: #a4f9c8;
       font-weight: bold;
@@ -83,18 +90,27 @@
 
       const userAnswer = prompt(task.question);
       if (userAnswer !== null && userAnswer.trim() === task.answer) {
-        cell.textContent = '✅ 完成';
-        // 若有 gif 屬性，則加入 img 標籤顯示
-          if (task.gif) {
-            const img = document.createElement('img');
-            img.src = task.gif;
-            img.alt = '任務GIF';
-            img.style.maxWidth = '100%';
-            img.style.marginTop = '10px';
-            cell.appendChild(img);
-          }
+        // 清空格子內容
+        cell.innerHTML = ''; 
+            
+        // 加入完成文字
+        const text = document.createElement('div');
+        text.textContent = '✅ 完成';
+        cell.appendChild(text);
+            
+        // 若有 gif 屬性，加入 img 標籤
+        if (task.gif) {
+          const img = document.createElement('img');
+          img.src = task.gif;
+          img.alt = '任務GIF';
+          img.style.maxWidth = '100%';
+          img.style.marginTop = '10px';
+          cell.appendChild(img);
+        }
+      
+        // 標記已完成
         cell.classList.add('completed');
-
+      
         // 儲存狀態到 localStorage
         completedTasks.push(index);
         localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
