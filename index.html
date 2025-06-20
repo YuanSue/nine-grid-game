@@ -21,15 +21,13 @@
       border: 2px solid #999;
       cursor: pointer;
       font-size: 60px;
-      height: 300px; /* 放大格子高度 */
-
+      height: 300px;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end; /* 垂直往下 */
-      align-items: center;       /* 水平置中 */
-      padding-bottom: 60px; /* 可微調底部間距 */
+      justify-content: flex-end;
+      align-items: center;
+      padding-bottom: 200px;
     }
-
     .completed {
       background-color: #a4f9c8;
       font-weight: bold;
@@ -46,6 +44,35 @@
       border-radius: 5px;
       cursor: pointer;
     }
+    /* 自訂輸入框樣式 */
+    #customPrompt {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      z-index: 1000;
+      text-align: center;
+      border-radius: 10px;
+    }
+    #customPrompt img {
+      max-width: 300px;
+      margin: 10px 0;
+    }
+    #customPrompt input {
+      width: 80%;
+      padding: 5px;
+      font-size: 16px;
+    }
+    #customPrompt button {
+      margin: 10px;
+      padding: 6px 12px;
+      font-size: 16px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -54,8 +81,18 @@
 <h1>九宮格任務遊戲</h1>
 <div class="grid" id="grid"></div>
 
+<!-- 自訂輸入視窗 -->
+<div id="customPrompt">
+  <p id="promptQuestion" style="font-weight:bold;"></p>
+  <img id="promptGif" src="" alt="任務圖示" style="display:none;">
+  <input type="text" id="promptInput" placeholder="輸入答案"><br>
+  <button id="promptOk">✅ 確定</button>
+  <button id="promptCancel">取消</button>
+</div>
+
 <script>
   const gif_51 = 'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbHg5MXN6MDZ1dnpoZ2RveXRrYXdtcmp2bXV1bGpsbWxpZjVlMWFuaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1OrIIOIcRTDaNidc5p/giphy.gif';
+
   const tasks = [
     { question: '與一位中央成員並與他/她 拍照上傳至IGorFB進行打打卡', answer: 'pose' },
     { question: '本屆社長名字', answer: '宇揚' },
@@ -70,8 +107,6 @@
 
   const grid = document.getElementById('grid');
   const resetBtn = document.getElementById('resetBtn');
-
-  // 從 localStorage 取得已完成資料
   let completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
 
   // 建立九宮格
@@ -80,56 +115,79 @@
     cell.className = 'cell';
     cell.textContent = `任務 ${index + 1}`;
 
-    // 如果該格已完成，更新顯示狀態
     if (completedTasks.includes(index)) {
-      cell.textContent = '✅ 完成';
+      cell.innerHTML = '✅ 完成';
       cell.classList.add('completed');
     }
 
     cell.addEventListener('click', () => {
       if (cell.classList.contains('completed')) return;
 
-      const userAnswer = prompt(task.question);
-      if (userAnswer !== null && userAnswer.trim() === task.answer) {
-        // 清空格子內容
-        cell.innerHTML = ''; 
-            
-        // 加入完成文字
-        const text = document.createElement('div');
-        text.textContent = '✅ 完成';
-        cell.appendChild(text);
-            
-        // 若有 gif 屬性，加入 img 標籤
-        if (task.gif) {
-          const img = document.createElement('img');
-          img.src = task.gif;
-          img.alt = '任務GIF';
-          img.style.maxWidth = '100%';
-          img.style.marginTop = '10px';
-          cell.appendChild(img);
+      showPrompt(task, (userAnswer) => {
+        if (userAnswer !== null && userAnswer === task.answer) {
+          cell.innerHTML = '';
+          const text = document.createElement('div');
+          text.textContent = '✅ 完成';
+          cell.appendChild(text);
+
+          if (task.gif) {
+            const img = document.createElement('img');
+            img.src = task.gif;
+            img.alt = '任務GIF';
+            img.style.maxWidth = '100%';
+            img.style.marginTop = '10px';
+            cell.appendChild(img);
+          }
+
+          cell.classList.add('completed');
+          completedTasks.push(index);
+          localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+        } else if (userAnswer !== null) {
+          alert('答錯囉，請再試一次！');
         }
-      
-        // 標記已完成
-        cell.classList.add('completed');
-      
-        // 儲存狀態到 localStorage
-        completedTasks.push(index);
-        localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
-      } else {
-        alert('答錯囉，請再試一次！');
-      }
+      });
     });
 
     grid.appendChild(cell);
   });
 
-  // 重置按鈕事件：清除 localStorage 並重整頁面
+  // 重置按鈕
   resetBtn.addEventListener('click', () => {
     if (confirm('確定要重置遊戲進度嗎？')) {
       localStorage.removeItem('completedTasks');
       location.reload();
     }
   });
+
+  // 顯示自訂輸入框
+  function showPrompt(task, callback) {
+    const dialog = document.getElementById('customPrompt');
+    const question = document.getElementById('promptQuestion');
+    const gif = document.getElementById('promptGif');
+    const input = document.getElementById('promptInput');
+
+    question.textContent = task.question;
+    input.value = '';
+
+    if (task.gif) {
+      gif.src = task.gif;
+      gif.style.display = 'block';
+    } else {
+      gif.style.display = 'none';
+    }
+
+    dialog.style.display = 'block';
+
+    document.getElementById('promptOk').onclick = () => {
+      dialog.style.display = 'none';
+      callback(input.value.trim());
+    };
+
+    document.getElementById('promptCancel').onclick = () => {
+      dialog.style.display = 'none';
+      callback(null);
+    };
+  }
 </script>
 
 </body>
