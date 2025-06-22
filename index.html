@@ -60,7 +60,7 @@
       }
      #promptQuestion {
 	font-weight: bold;
-	font-size: 70px; /* ✅ 調整這裡即可改變提問標題大小 */
+	font-size: 50px; /* ✅ 調整這裡即可改變提問標題大小 */
 	margin-bottom: 10px;
 	    }
   
@@ -73,7 +73,7 @@
     #customPrompt input {
       width: 80%;
       padding: 5px;
-      font-size: 30px;
+      font-size: 50px;
     }
     #customPrompt button {
       margin: 10px;
@@ -110,17 +110,18 @@
 
 <script>
   const gif_51 = 'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbHg5MXN6MDZ1dnpoZ2RveXRrYXdtcmp2bXV1bGpsbWxpZjVlMWFuaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1OrIIOIcRTDaNidc5p/giphy.gif';
+  const gif_huh = 'https://giphy.com/gifs/BlackRosesPlayingCards-cat-meme-surprise-GRk3GLfzduq1NtfGt5'
 
   const tasks = [
     { question: '與一位中央成員並與他/她 拍照上傳至IGorFB進行打打卡', answer: 'pose' },
-    { question: '本屆社長名字', answer: '宇揚' },
+    { question: '第25, 26屆社長名字', answer: '宇揚' },
     { question: '跟宇揚、建宇、渟渟任何一位說一聲”你最棒”', answer: 'good' },
     { question: '今年是中央第幾屆', answer: '9' },
     { question: '真心話大冒險', answer: 'ok' },
-    { question: '貓咪梗圖大挑戰1', gif: gif_51, answer: '5112151121' },
-    { question: '貓咪梗圖大挑戰2', answer: 'Huh?' },
+    { question: '貓咪梗圖大挑戰1\n5個數字', gif: gif_51, answer: '51121' },
+    { question: '貓咪梗圖大挑戰2', gif: gif_huh, answer: 'Huh?' },
     { question: '與一位中央成員進行猜拳且贏一局', answer: 'win' },
-    { question: '本屆年度口號', answer: '999paradice' },
+    { question: '本屆年度口號', answer: '輕宇飛揚' },
   ];
 
   const grid = document.getElementById('grid');
@@ -184,6 +185,7 @@
     const gif = document.getElementById('promptGif');
     const input = document.getElementById('promptInput');
 
+    question.innerHTML = task.question.replace(/\n/g, '<br>');
     question.textContent = task.question;
     input.value = '';
 
