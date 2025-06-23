@@ -52,12 +52,15 @@
       left: 50%;
       transform: translate(-50%, -50%);
       background: white;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      padding: 40px;                /* 加大內邊距 */
+      width: 80vw;                  /* ❗ 加這一行：設為 80% 的視窗寬度 */
+      max-width: 1000px;            /* ❗ 最大寬度限制（可依你需求調整） */
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
       z-index: 1000;
       text-align: center;
-      border-radius: 10px;
-      }
+      border-radius: 20px;
+    }
+
      #promptQuestion {
 	font-weight: bold;
 	font-size: 50px; /* ✅ 調整這裡即可改變提問標題大小 */
@@ -73,12 +76,12 @@
     #customPrompt input {
       width: 80%;
       padding: 5px;
-      font-size: 50px;
+      font-size: 60px;
     }
     #customPrompt button {
       margin: 10px;
       padding: 6px 12px;
-      font-size: 50px;
+      font-size: 60px;
       cursor: pointer;
     }
   </style>
@@ -113,13 +116,13 @@
   const gif_huh = 'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcTkxeDNzanBjdTRkZnppZ2xzZ3ZhZXp3N3Zsb2dsNDY3cjhyZ2tzaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/GRk3GLfzduq1NtfGt5/giphy.gif'
 
   const tasks = [
-    { question: '與一位中央成員並與他/她 拍照上傳至IGorFB進行打打卡', answer: 'pose' },
-    { question: '第25, 26屆社長名字', answer: '宇揚' },
+    { question: '與一位中央成員拍照\n並上傳至IG or FB打卡', answer: 'pose' },
+    { question: '第25-26屆社長名字\n提示: 中文，兩個字', answer: '宇揚' },
+    { question: '真心話大冒險', answer: 'ok' },
     { question: '跟宇揚、建宇、渟渟任何一位說一聲”你最棒”', answer: 'good' },
     { question: '今年是中央第幾屆', answer: '9' },
-    { question: '真心話大冒險', answer: 'ok' },
-    { question: '貓咪梗圖大挑戰1\n5個數字', gif: gif_51, answer: '51121' },
-    { question: '貓咪梗圖大挑戰2', gif: gif_huh, answer: 'Huh?' },
+    { question: '貓咪梗圖大挑戰1\n提示: 5個數字', gif: gif_51, answer: '51121' },
+    { question: '貓咪梗圖大挑戰2\n提示: H _ _ ?(小寫)', gif: gif_huh, answer: 'Huh?' },
     { question: '與一位中央成員進行猜拳且贏一局', answer: 'win' },
     { question: '本屆年度口號', answer: '輕宇飛揚' },
   ];
@@ -135,7 +138,7 @@
     cell.textContent = `任務 ${index + 1}`;
 
     if (completedTasks.includes(index)) {
-      cell.innerHTML = '✅ 完成';
+      cell.innerHTML = '✅  完成';
       cell.classList.add('completed');
     }
 
@@ -146,7 +149,7 @@
         if (userAnswer !== null && userAnswer === task.answer) {
           cell.innerHTML = '';
           const text = document.createElement('div');
-          text.textContent = '✅ 完成';
+          text.textContent = '✅  完成';
           cell.appendChild(text);
 
           if (task.gif) {
