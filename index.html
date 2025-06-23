@@ -17,16 +17,20 @@
     }
     .cell {
       background-color: #f0f0f0;
-      padding: 30px;
+      padding: 20px;
       border: 2px solid #999;
       cursor: pointer;
-      font-size: 60px;
-      height: 150px;
+      font-size: 50px;
+      height: 250px;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       align-items: center;
-      padding-bottom: 120px;
+      overflow: hidden; /* 防止內容溢出 */
+      text-align: center;
+      box-sizing: border-box;
+      position: relative;
+      padding-bottom: 180px;
     }
     .completed {
       background-color: #a4f9c8;
@@ -53,8 +57,8 @@
       transform: translate(-50%, -50%);
       background: white;
       padding: 40px;                /* 加大內邊距 */
-      width: 80vw;                  /* ❗ 加這一行：設為 80% 的視窗寬度 */
-      max-width: 1000px;            /* ❗ 最大寬度限制（可依你需求調整） */
+      width: 80vw;                  /* 加這一行：設為 80% 的視窗寬度 */
+      max-width: 1000px;            /* 最大寬度限制（可依你需求調整） */
       box-shadow: 0 0 20px rgba(0,0,0,0.4);
       z-index: 1000;
       text-align: center;
@@ -68,8 +72,8 @@
 	    }
   
     #customPrompt img {
-      max-width: 500px;
-      max-height: 500px;
+      max-width: 350px;
+      max-height: 350px;
       object-fit: contain;
       margin: 10px 0;
       }
@@ -84,6 +88,13 @@
       font-size: 60px;
       cursor: pointer;
     }
+
+      .task-gif {
+    max-height: 100px;
+    max-width: 100%;
+    margin-top: 8px;
+    object-fit: contain;
+  }
   </style>
 </head>
 <body>
@@ -156,10 +167,10 @@
             const img = document.createElement('img');
             img.src = task.gif;
             img.alt = '任務GIF';
-            img.style.maxWidth = '100%';
-            img.style.marginTop = '10px';
+            img.classList.add('task-gif'); // 加上 class 管理樣式
             cell.appendChild(img);
           }
+
 
           cell.classList.add('completed');
           completedTasks.push(index);
