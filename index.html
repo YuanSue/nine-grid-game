@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-
+  <title>九宮格任務遊戲</title>
   <style>
     body {
       font-family: sans-serif;
@@ -11,8 +11,8 @@
     }
     .grid {
       display: grid;
-      grid-template-columns: repeat(3, 250px);
-      grid-gap: 20px;
+      grid-template-columns: repeat(3, 300px);
+      grid-gap: 30px;
       justify-content: center;
     }
     .cell {
@@ -21,12 +21,12 @@
       border: 2px solid #999;
       cursor: pointer;
       font-size: 60px;
-      height: 150px;
+      height: 300px;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       align-items: center;
-      padding-bottom: 120px;
+      padding-bottom: 200px;
     }
     .completed {
       background-color: #a4f9c8;
@@ -57,28 +57,24 @@
       z-index: 1000;
       text-align: center;
       border-radius: 10px;
-      }
-     #promptQuestion {
-	font-weight: bold;
-	font-size: 50px; /* ✅ 調整這裡即可改變提問標題大小 */
-	margin-bottom: 10px;
-	    }
-  
+    }
     #customPrompt img {
-      max-width: 500px;
-      max-height: 500px;
+      max-width: 200px;
+      max-height: 200px;
       object-fit: contain;
       margin: 10px 0;
-      }
+    }
+    
+
     #customPrompt input {
       width: 80%;
       padding: 5px;
-      font-size: 50px;
+      font-size: 16px;
     }
     #customPrompt button {
       margin: 10px;
       padding: 6px 12px;
-      font-size: 50px;
+      font-size: 16px;
       cursor: pointer;
     }
   </style>
@@ -86,17 +82,7 @@
 <body>
 
 <button id="resetBtn">🔄 重置遊戲</button>
-
-<h1 style="font-size: 36px;">九宮格任務遊戲</h1>
-
-<h2 style="font-size: 28px;">🎯 遊戲規則</h2>
-<ul style="list-style: none; padding: 0; font-size: 20px; line-height: 1.6;">
-  <li>🟩 點擊任務格，依提示回答問題。</li>
-  <li>✅ 答對後會顯示完成與對應圖片。</li>
-  <li>📌 每個任務只能完成一次。</li>
-  <li>🔄 可點左上角按鈕重置遊戲。</li>
-</ul>
-
+<h1>九宮格任務遊戲</h1>
 <div class="grid" id="grid"></div>
 
 <!-- 自訂輸入視窗 -->
@@ -110,22 +96,17 @@
 
 <script>
   const gif_51 = 'https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbHg5MXN6MDZ1dnpoZ2RveXRrYXdtcmp2bXV1bGpsbWxpZjVlMWFuaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/1OrIIOIcRTDaNidc5p/giphy.gif';
-<<<<<<< HEAD
-  const gif_huh = 'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcTkxeDNzanBjdTRkZnppZ2xzZ3ZhZXp3N3Zsb2dsNDY3cjhyZ2tzaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/GRk3GLfzduq1NtfGt5/giphy.gif'
-=======
-  const gif_huh = 'https://giphy.com/gifs/BlackRosesPlayingCards-cat-meme-surprise-GRk3GLfzduq1NtfGt5'
->>>>>>> 4683fc31c1b948eff43ff393d7022c69be8a37cd
 
   const tasks = [
     { question: '與一位中央成員並與他/她 拍照上傳至IGorFB進行打打卡', answer: 'pose' },
-    { question: '第25, 26屆社長名字', answer: '宇揚' },
+    { question: '本屆社長名字', answer: '宇揚' },
     { question: '跟宇揚、建宇、渟渟任何一位說一聲”你最棒”', answer: 'good' },
     { question: '今年是中央第幾屆', answer: '9' },
     { question: '真心話大冒險', answer: 'ok' },
-    { question: '貓咪梗圖大挑戰1\n5個數字', gif: gif_51, answer: '51121' },
-    { question: '貓咪梗圖大挑戰2', gif: gif_huh, answer: 'Huh?' },
+    { question: '貓咪梗圖大挑戰1', gif: gif_51, answer: '5112151121' },
+    { question: '貓咪梗圖大挑戰2', answer: 'Huh?' },
     { question: '與一位中央成員進行猜拳且贏一局', answer: 'win' },
-    { question: '本屆年度口號', answer: '輕宇飛揚' },
+    { question: '本屆年度口號', answer: '100' },
   ];
 
   const grid = document.getElementById('grid');
@@ -189,7 +170,6 @@
     const gif = document.getElementById('promptGif');
     const input = document.getElementById('promptInput');
 
-    question.innerHTML = task.question.replace(/\n/g, '<br>');
     question.textContent = task.question;
     input.value = '';
 
