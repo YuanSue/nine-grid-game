@@ -185,8 +185,9 @@
     const gif = document.getElementById('promptGif');
     const input = document.getElementById('promptInput');
 
+     // ✅ 改這行，讓 \n 能換行顯示
     question.innerHTML = task.question.replace(/\n/g, '<br>');
-    question.textContent = task.question;
+
     input.value = '';
 
     if (task.gif) {
