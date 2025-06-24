@@ -74,7 +74,8 @@
       max-width: 350px;
       max-height: 350px;
       object-fit: contain;
-      margin: 10px 0;
+      margin: 10px auto; /* ✅ 水平置中 */
+      display: block;   /* ✅ 搭配 margin auto 使用 */
       }
     #customPrompt input {
       width: 80%;
@@ -126,16 +127,16 @@
   const gif_huh = 'https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcTkxeDNzanBjdTRkZnppZ2xzZ3ZhZXp3N3Zsb2dsNDY3cjhyZ2tzaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/GRk3GLfzduq1NtfGt5/giphy.gif'
 
   const tasks = [
-    { question: '與一位中央成員拍照\n並上傳至IG or FB打卡', answer: 'pose' },
-    { question: '第25-26屆社長名字\n提示: 中文，兩個字', answer: '宇揚' },
-    { question: '真心話大冒險', answer: 'ok' },
-    { question: '跟宇揚、建宇、渟渟任何一位說一聲”你最棒”', answer: 'good' },
-    { question: '今年是中央第幾屆', answer: '9' },
-    { question: '貓咪梗圖大挑戰1\n提示: 5個數字', gif: gif_51, answer: '51121' },
-    { question: '貓咪梗圖大挑戰2\n提示: H _ _ ?(小寫)', gif: gif_huh, answer: 'Huh?' },
-    { question: '與一位中央成員進行猜拳且贏一局', answer: 'win' },
-    { question: '本屆年度口號', answer: '輕宇飛揚' },
-  ];
+  { question: '與一位中央成員拍照\n並上傳至IG or FB打卡', answer: ['pose'] },
+  { question: '第25-26屆社長名字\n提示: 中文', answer: ['宇揚', '施宇揚'] },
+  { question: '真心話大冒險\n到遊戲攤找元蘇挑戰', answer: ['ok'] },
+  { question: '跟宇揚、建宇、渟渟\n任何一位說一聲”你最棒”', answer: ['good'] },
+  { question: '今年是中央第幾屆', answer: ['9', '第九屆', '第9屆'] },
+  { question: '貓咪梗圖大挑戰1\n提示: 5個數字', gif: gif_51, answer: ['51121'] },
+  { question: '貓咪梗圖大挑戰2\n提示: _ _ _ ?', gif: gif_huh, answer: ['Huh?', 'huh?', 'HUH?'] },
+  { question: '與一位中央成員進行猜拳且贏一局', answer: ['win'] },
+  { question: '第25-26屆年度口號', answer: ['輕宇飛揚'] },
+];
 
   const grid = document.getElementById('grid');
   const resetBtn = document.getElementById('resetBtn');
@@ -156,7 +157,10 @@
       if (cell.classList.contains('completed')) return;
 
       showPrompt(task, (userAnswer) => {
-        if (userAnswer !== null && userAnswer === task.answer) {
+        if (
+            userAnswer !== null &&
+            task.answer.some(ans => userAnswer === ans)
+          ) {
           cell.innerHTML = '';
           const text = document.createElement('div');
           text.textContent = '✅  完成';
